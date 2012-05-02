@@ -10,11 +10,6 @@ if(WIN32)
     set(QT_QMAKE_EXECUTABLE 
             "C:\\QtSDK\\Desktop\\Qt\\4.8.0\\mingw\\bin\\qmake.exe")
 endif(WIN32)
-if(APPLE)
-    set(QT_MOC_EXECUTABLE /usr/bin/moc)
-    set(QT_RCC_EXECUTABLE /usr/bin/rcc)
-    set(QT_UIC_EXECUTABLE /usr/bin/uic)
-endif(APPLE)
 
   
 set(PROGNAME mmm)
@@ -33,8 +28,8 @@ endif(APPLE)
 
 find_package(Qt4 REQUIRED)
 
-set(MMM_SRC src/main.cpp )
-set(MMM_HDR )
+set(MMM_SRC src/main.cpp src/os.cpp src/gui.cpp )
+set(MMM_HDR src/gui.h )
 set(MMM_UI )
 set(MMM_RSC )
 
@@ -60,8 +55,10 @@ if(APPLE)
             ${CMAKE_CURRENT_BINARY_DIR}/${PROGNAME}.app/Contents/Resources
             COMMAND cp ${MACOSX_BUNDLE_ICON_FILE} 
             ${CMAKE_CURRENT_BINARY_DIR}/${PROGNAME}.app/Contents/Resources
+            COMMAND rm -rf
+            ${CMAKE_CURRENT_BINARY_DIR}/${MACOSX_BUNDLE_BUNDLE_NAME}.app
             COMMAND mv ${CMAKE_CURRENT_BINARY_DIR}/${PROGNAME}.app
-            ${CMAKE_CURRENT_BINARY_DIR}/${MACOSX_BUNDLE_BUNDLENAME}.app)
+            ${CMAKE_CURRENT_BINARY_DIR}/${MACOSX_BUNDLE_BUNDLE_NAME}.app)
 
     # Running from command line
     add_custom_target(run COMMAND open
