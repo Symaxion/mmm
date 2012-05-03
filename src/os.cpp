@@ -25,6 +25,18 @@ namespace OS {
     #endif
     }
 
+    QString instancePath(const QString& instance) {
+        return kMmmLocation + "/" + instance;
+    }
+
+    QString instanceMcPath(const QString& instance) {
+    #ifdef Q_WS_MAC
+        return instancePath(instance) + "/minecraft";
+    #else
+        return instancePath(instance) + "/.minecraft";
+    #endif    
+    }
+
     QString scriptText(const QString& mcpath) {
     #if defined(Q_WS_WIN)
         return QString(
@@ -76,5 +88,23 @@ namespace OS {
     QString getMinecraftApp() {
         return QFileDialog::getOpenFileName(0, 
                 "Select your Minecraft application", ".", kAppExtension);
+    }
+
+    void openFolder(const QString& folder) {
+        QString copy = folder;
+    #if defined(Q_WS_WIN)
+        copy.replace("\"","\\\"");
+        std::system(qPrintable("explorer \"" + copy + "\""));
+    #elif defined(Q_WS_MAC)
+        copy.replace("\'","\\\'");
+        std::system(qPrintable("open \'" + copy + "\' &"));
+    #else
+        copy.replace("\'", "\\\'");
+        std::system(qPrintable("xdg-open \'" + copy + "\' &"));
+    #endif
+    }
+
+    void launchInstance(const QString& name) {
+        (void)name;
     }
 }
