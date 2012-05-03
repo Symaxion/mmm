@@ -30,6 +30,7 @@ namespace OS {
 
     void prepareInstance(const QString& instance) {
         QDir(kMmmLocation).mkdir(instance);
+        QDir(kMmmLocation).mkdir(instance + "/minecraft");
     #ifdef Q_WS_MAC
         QDir(kMmmLocation).mkdir(instance + "/Library");
         chflags(qPrintable(kMmmLocation + "/" + instance + "/Library"), 
