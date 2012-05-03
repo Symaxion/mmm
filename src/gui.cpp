@@ -11,6 +11,12 @@
 
 #include <iostream>
 
+void errorMessage(QWidget* parent, const QString& s) {
+    QErrorMessage m(parent);
+    m.showMessage(s);
+    m.exec();
+} 
+
 Gui::Gui(QWidget* parent) : QWidget(parent) {
     this->setWindowTitle("Multi Minecraft Manager");
     this->resize(384, 420);
@@ -66,7 +72,7 @@ Gui::Gui(QWidget* parent) : QWidget(parent) {
 bool Gui::addInstance(const QString& name) {
     if(!checkInstanceName(name)) {
         // Name invalid
-        QErrorMessage(this).showMessage("That name contains invalid characters.\n"
+        errorMessage(this, "That name contains invalid characters.\n"
                 "You can only use a-z, A-Z, 0-9, '-', '_', '.', '(', ')' and "
                 "spaces.");
         return false;
@@ -74,7 +80,7 @@ bool Gui::addInstance(const QString& name) {
 
     if(containsInstance(name)) {
         // Duplicate item
-        QErrorMessage(this).showMessage(
+        errorMessage(this, 
                 "You already have an instance with that name.");
         return false;
     }
@@ -89,13 +95,13 @@ bool Gui::addInstance(const QString& name) {
 bool Gui::removeInstance(const QString& name) {
     if(name == "Default") {
         // Can't remove default!
-        QErrorMessage(this).showMessage("You cannot remove the default instance!");
+        errorMessage(this, "You cannot remove the default instance!");
         return false;
     }
 
     if(!containsInstance(name)) {
         // Item does not exist
-        QErrorMessage(this).showMessage("That instance does not exist.");
+        errorMessage(this, "That instance does not exist.");
         return false;
     }
 
@@ -134,7 +140,7 @@ bool Gui::containsInstance(const QString& name) const {
 
 
 bool Gui::checkInstanceName(const QString& name) {
-    return name.contains(QRegExp("^[a-zA-Z0-9 -_.()]+$"));
+    return QRegExp("^[a-zA-Z0-9 -_.()]+$").exactMatch(name);
 }
 
 void Gui::addButtonEvent() {
