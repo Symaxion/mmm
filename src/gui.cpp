@@ -6,6 +6,8 @@
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QListWidget>
 #include <QtGui/QPushButton>
+#include <QtGui/QInputDialog>
+#include <QtGui/QErrorMessage>
 
 #include <iostream>
 
@@ -49,19 +51,31 @@ Gui::Gui(QWidget* parent) : QWidget(parent) {
     mListWidget->addItem("Default");
     mListWidget->setSortingEnabled(true);
 
+    foreach(QString s, OS::listInstances()) {
+        mListWidget->addItem(s);
+    }
+
     // Connections
-    connect(mOpenButton, SIGNAL(clicked()), this, SLOT(openButtonEvent())); 
+    connect(mAddButton   , SIGNAL(clicked()), this, SLOT(addButtonEvent())   ); 
+    connect(mRemoveButton, SIGNAL(clicked()), this, SLOT(removeButtonEvent())); 
+    connect(mOpenButton  , SIGNAL(clicked()), this, SLOT(openButtonEvent())  ); 
+    connect(mLaunchButton, SIGNAL(clicked()), this, SLOT(launchButtonEvent())); 
 
 } 
 
 bool Gui::addInstance(const QString& name) {
     if(!checkInstanceName(name)) {
         // Name invalid
+        QErrorMessage(this).showMessage("That name contains invalid characters.\n"
+                "You can only use a-z, A-Z, 0-9, '-', '_', '.', '(', ')' and "
+                "spaces.");
         return false;
     }
 
     if(containsInstance(name)) {
         // Duplicate item
+        QErrorMessage(this).showMessage(
+                "You already have an instance with that name.");
         return false;
     }
 
@@ -73,8 +87,15 @@ bool Gui::addInstance(const QString& name) {
 }
 
 bool Gui::removeInstance(const QString& name) {
+    if(name == "Default") {
+        // Can't remove default!
+        QErrorMessage(this).showMessage("You cannot remove the default instance!");
+        return false;
+    }
+
     if(!containsInstance(name)) {
         // Item does not exist
+        QErrorMessage(this).showMessage("That instance does not exist.");
         return false;
     }
 
@@ -83,11 +104,19 @@ bool Gui::removeInstance(const QString& name) {
 
     delete mListWidget->takeItem(mListWidget->row(toRemove));
 
+    OS::removeInstance(name);
+
     return true;
 }
 
-void Gui::launchInstance(const QString& name) {
+void Gui::launchInstance(QString name) {
+    if(name == "Default") {
+        name = OS::kDefaultInstance;
+    } else {
+        name = OS::instancePath(name);
+    }
 
+    OS::launchInstance(name);
 }
 
 void Gui::openInstance(const QString& name) {
@@ -109,21 +138,25 @@ bool Gui::checkInstanceName(const QString& name) {
 }
 
 void Gui::addButtonEvent() {
-    // TODO
+    QString name = QInputDialog::getText(this, "Name your new instance", 
+            "Please give a name to the new instance: ");
+
+    addInstance(name);
 }
 
 void Gui::removeButtonEvent() {
-    // TODO
+    QString selected = mListWidget->currentItem()->text();
+    removeInstance(selected);
 }
 
 void Gui::openButtonEvent() {
     QString selected = mListWidget->currentItem()->text();
-    std::cerr << "Debug: " << qPrintable(selected) << std::endl;
     openInstance(selected);
 }
 
 void Gui::launchButtonEvent() {
-    // TODO
+    QString selected = mListWidget->currentItem()->text();
+    launchInstance(selected);
 }
 
 

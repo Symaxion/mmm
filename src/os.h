@@ -1,10 +1,10 @@
 #include <QtCore/QString>
 #include <QtCore/QDir>
+#include <QtCore/QStringList>
 
 #include <cstdlib>
 
 namespace OS {
-    
 
     const QString kAppExtension = 
     #if defined(Q_WS_WIN)
@@ -57,6 +57,10 @@ namespace OS {
     QString getMinecraftApp();
 
     void prepareInstance(const QString&);
+
+    void removeInstance(const QString&);
+
+    QStringList listInstances();
 
     QString instancePath(const QString&);
 

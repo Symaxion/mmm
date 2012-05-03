@@ -12,7 +12,7 @@ public:
 
     bool addInstance(const QString&);
     bool removeInstance(const QString&);
-    void launchInstance(const QString&);
+    void launchInstance(QString);
     void openInstance(const QString&);
 
     bool containsInstance(const QString&) const;
