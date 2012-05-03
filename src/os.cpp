@@ -2,6 +2,7 @@
 
 #include <QtCore/QFile>
 #include <QtCore/QDir>
+#include <QtCore/QDirIterator>
 #include <QtGui/QFileDialog>
 
 #include <iostream>
@@ -14,6 +15,19 @@
 #endif
 
 namespace OS {
+    QString shellEscape(const QString& input) {
+        QString copy = input;
+    #ifdef Q_WS_WIN
+        copy.replace("\"","\\\"");
+        copy = "\"" + copy + "\"";
+    #else
+        copy.replace("\'","\\\'");
+        copy = "\'" + copy + "\'";
+    #endif
+        return copy; 
+    }
+
+
     void prepareInstance(const QString& instance) {
         QDir(kMmmLocation).mkdir(instance);
     #ifdef Q_WS_MAC
@@ -23,6 +37,29 @@ namespace OS {
         symlink("..", qPrintable(kMmmLocation + "/" + instance + 
                 "/Library/Application Support"));
     #endif
+    }
+
+    void recursiveRemove(const QDir& path) {
+        QDirIterator it(path.absolutePath(), QDir::AllEntries | QDir::Hidden | 
+                QDir::NoDotAndDotDot);
+        while(it.hasNext()) {
+            it.next();
+            if(it.fileInfo().isDir() && ! it.fileInfo().isSymLink()) {
+                recursiveRemove(it.filePath());
+            } else {
+                QFile::remove(it.filePath());
+            }
+
+        }
+        QDir().rmdir(path.absolutePath());
+    }
+
+    void removeInstance(const QString& instance) {
+        recursiveRemove(instancePath(instance));
+    }
+
+    QStringList listInstances() {
+        return QDir(kMmmLocation).entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     }
 
     QString instancePath(const QString& instance) {
@@ -37,7 +74,8 @@ namespace OS {
     #endif    
     }
 
-    QString scriptText(const QString& mcpath) {
+    QString scriptText(const QString& mc) {
+        QString mcpath = shellEscape(mc);
     #if defined(Q_WS_WIN)
         return QString(
             "@echo off\n"
@@ -52,7 +90,7 @@ namespace OS {
     #else
         return QString(
             "#!/bin/bash\n"
-            "HOME=$1 java -jar '" + mcpath + "'\n"
+            "HOME=$1 java -jar '" + mcpath + "' &\n"
         );
     #endif
     }
@@ -90,21 +128,22 @@ namespace OS {
                 "Select your Minecraft application", ".", kAppExtension);
     }
 
+
     void openFolder(const QString& folder) {
-        QString copy = folder;
+        QString copy = shellEscape(folder);
     #if defined(Q_WS_WIN)
-        copy.replace("\"","\\\"");
-        std::system(qPrintable("explorer \"" + copy + "\""));
+        std::system(qPrintable("explorer " + copy));
     #elif defined(Q_WS_MAC)
-        copy.replace("\'","\\\'");
-        std::system(qPrintable("open \'" + copy + "\' &"));
+        std::system(qPrintable("open " + copy + " &"));
     #else
-        copy.replace("\'", "\\\'");
-        std::system(qPrintable("xdg-open \'" + copy + "\' &"));
+        std::system(qPrintable("xdg-open " + copy + " &"));
     #endif
     }
 
     void launchInstance(const QString& name) {
-        (void)name;
+        QString copy = shellEscape(name);
+        QString script = shellEscape(kScriptLocation); 
+
+        std::system(qPrintable(script + " " + copy)); 
     }
 }
