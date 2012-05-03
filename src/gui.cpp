@@ -1,9 +1,13 @@
 #include "gui.h"
 
+#include "os.h"
+
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QListWidget>
 #include <QtGui/QPushButton>
+
+#include <iostream>
 
 Gui::Gui(QWidget* parent) : QWidget(parent) {
     this->setWindowTitle("Multi Minecraft Manager");
@@ -41,4 +45,87 @@ Gui::Gui(QWidget* parent) : QWidget(parent) {
     mButtonLayout->addWidget(mLaunchButton);
 
     mLayout->addWidget(mButtonContainer);
+
+    mListWidget->addItem("Default");
+    mListWidget->setSortingEnabled(true);
+
+    // Connections
+    connect(mOpenButton, SIGNAL(clicked()), this, SLOT(openButtonEvent())); 
+
 } 
+
+bool Gui::addInstance(const QString& name) {
+    if(!checkInstanceName(name)) {
+        // Name invalid
+        return false;
+    }
+
+    if(containsInstance(name)) {
+        // Duplicate item
+        return false;
+    }
+
+    mListWidget->addItem(name);
+
+    OS::prepareInstance(name);
+
+    return true;
+}
+
+bool Gui::removeInstance(const QString& name) {
+    if(!containsInstance(name)) {
+        // Item does not exist
+        return false;
+    }
+
+    QListWidgetItem* toRemove = mListWidget->findItems(name, 
+            Qt::MatchFixedString).at(0);
+
+    delete mListWidget->takeItem(mListWidget->row(toRemove));
+
+    return true;
+}
+
+void Gui::launchInstance(const QString& name) {
+
+}
+
+void Gui::openInstance(const QString& name) {
+    if(name == "Default") {
+        OS::openFolder(OS::kDefaultInstanceMcPath);
+    } else {
+        OS::openFolder(OS::instanceMcPath(name));
+    }
+}
+
+bool Gui::containsInstance(const QString& name) const {
+    return mListWidget->findItems(name, Qt::MatchFixedString).size() != 0;
+
+}
+
+
+bool Gui::checkInstanceName(const QString& name) {
+    return name.contains(QRegExp("^[a-zA-Z0-9 -_.()]+$"));
+}
+
+void Gui::addButtonEvent() {
+    // TODO
+}
+
+void Gui::removeButtonEvent() {
+    // TODO
+}
+
+void Gui::openButtonEvent() {
+    QString selected = mListWidget->currentItem()->text();
+    std::cerr << "Debug: " << qPrintable(selected) << std::endl;
+    openInstance(selected);
+}
+
+void Gui::launchButtonEvent() {
+    // TODO
+}
+
+
+
+

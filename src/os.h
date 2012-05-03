@@ -24,6 +24,14 @@ namespace OS {
     #endif
     ;
 
+    const QString kDefaultInstanceMcPath = 
+    #if defined(Q_WS_MAC) 
+        kDefaultInstance + "/Library/Application Support/minecraft";
+    #else
+        kDefaultInstance + "/.minecraft";
+    #endif
+    ;
+
     const QString kMmmLocation = 
     #if defined(Q_WS_WIN)
         QString(std::getenv("APPDATA")) + "/.mmm"
@@ -50,6 +58,10 @@ namespace OS {
 
     void prepareInstance(const QString&);
 
+    QString instancePath(const QString&);
+
+    QString instanceMcPath(const QString&);
+
     QString scriptText(const QString&);
 
     void createScript(const QString&);
@@ -57,4 +69,8 @@ namespace OS {
     bool isInitialized();
 
     void initialize();
+
+    void openFolder(const QString&);
+
+    void launchInstance(const QString&);
 }

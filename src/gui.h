@@ -10,6 +10,22 @@ class Gui : public QWidget {
 public:
     Gui(QWidget* parent = 0); 
 
+    bool addInstance(const QString&);
+    bool removeInstance(const QString&);
+    void launchInstance(const QString&);
+    void openInstance(const QString&);
+
+    bool containsInstance(const QString&) const;
+
+private:
+    bool checkInstanceName(const QString&);
+
+private slots:
+    void addButtonEvent();
+    void removeButtonEvent();
+    void openButtonEvent();
+    void launchButtonEvent();
+
 private:
     QVBoxLayout* mLayout;
     QListWidget* mListWidget;
