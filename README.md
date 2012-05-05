@@ -25,7 +25,7 @@ Features
 
 Screenshots
 -----------
-To be done.
+<img src="http://i.imgur.com/ilwlt.png" />
 
 Downloads
 ---------
