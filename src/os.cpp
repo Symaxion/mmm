@@ -30,7 +30,7 @@ namespace OS {
 
     void prepareInstance(const QString& instance) {
         QDir(kMmmLocation).mkdir(instance);
-        QDir(kMmmLocation).mkdir(instance + "/minecraft");
+        QDir().mkdir(instanceMcPath(instance));
     #ifdef Q_WS_MAC
         QDir(kMmmLocation).mkdir(instance + "/Library");
         chflags(qPrintable(kMmmLocation + "/" + instance + "/Library"), 
@@ -64,14 +64,14 @@ namespace OS {
     }
 
     QString instancePath(const QString& instance) {
-        return kMmmLocation + "/" + instance;
+        return kMmmLocation + kPS + instance;
     }
 
     QString instanceMcPath(const QString& instance) {
     #ifdef Q_WS_MAC
         return instancePath(instance) + "/minecraft";
     #else
-        return instancePath(instance) + "/.minecraft";
+        return instancePath(instance) + kPS + ".minecraft";
     #endif    
     }
 
@@ -81,6 +81,10 @@ namespace OS {
         return QString(
             "@echo off\n"
             "set APPDATA=%1\n"
+            "SET APPDATA=###%APPDATA%###\n"
+            "SET APPDATA=%APPDATA:\"###=%\n"
+            "SET APPDATA=%APPDATA:###\"=%\n"
+            "SET APPDATA=%APPDATA:###=%\n"
             + mcpath + "\n"
         );
     #elif defined(Q_WS_MAC)
@@ -145,6 +149,10 @@ namespace OS {
         QString copy = shellEscape(name);
         QString script = shellEscape(kScriptLocation); 
 
+    #ifdef Q_WS_WIN
+        std::system(qPrintable("cmd /c \"" + script + " "+ copy+"\""));
+    #else
         std::system(qPrintable(script + " " + copy)); 
+    #endif
     }
 }
