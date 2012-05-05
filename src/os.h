@@ -6,6 +6,14 @@
 
 namespace OS {
 
+    const QString kPS = 
+    #if defined(Q_WS_WIN)
+        "\\"
+    #else
+        "/"
+    #endif
+    ;
+
     const QString kAppExtension = 
     #if defined(Q_WS_WIN)
         "*.exe"
@@ -28,13 +36,13 @@ namespace OS {
     #if defined(Q_WS_MAC) 
         kDefaultInstance + "/Library/Application Support/minecraft";
     #else
-        kDefaultInstance + "/.minecraft";
+        kDefaultInstance + kPS +".minecraft";
     #endif
     ;
 
     const QString kMmmLocation = 
     #if defined(Q_WS_WIN)
-        QString(std::getenv("APPDATA")) + "/.mmm"
+        QString(std::getenv("APPDATA")) + "\\.mmm"
     #elif defined(Q_WS_MAC)
         QDir::homePath() + "/Library/Application Support/MMM"
     #else
@@ -52,7 +60,7 @@ namespace OS {
     #endif
     ;
 
-    const QString kScriptLocation = kMmmLocation + "/" + kScriptName;
+    const QString kScriptLocation = kMmmLocation + kPS + kScriptName;
 
     QString getMinecraftApp();
 
