@@ -30,7 +30,7 @@ To be done.
 Downloads
 ---------
 **Windows** 
-[[.exe installer]](https://github.com/downloads/SeySayux/mmm/mmm.exe)
+[[.exe installer]](https://github.com/downloads/SeySayux/mmm/mmm-install.exe)
 [[.zip file]](https://github.com/downloads/SeySayux/mmm/mmm.zip)
 
 **Mac OS X** 
