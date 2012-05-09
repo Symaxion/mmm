@@ -114,4 +114,4 @@ namespace OS {
     void launchInstance(const QString&);
 }
 
-#endif MMM_OS_H_ /* MMM_OS_H */
+#endif /* MMM_OS_H */

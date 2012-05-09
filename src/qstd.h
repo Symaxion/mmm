@@ -38,4 +38,4 @@ namespace qstd {
 	int chmod(const QString& s);
 }
 
-#endif MMM_QSTD_H_ /* MMM_QSTD_H_ */
+#endif /* MMM_QSTD_H_ */
