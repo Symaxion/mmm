@@ -52,7 +52,7 @@ endif(APPLE)
 
 find_package(Qt4 REQUIRED)
 
-set(MMM_SRC src/main.cpp src/os.cpp src/gui.cpp )
+set(MMM_SRC src/main.cpp src/os.cpp src/gui.cpp src/qstd.cpp )
 set(MMM_HDR src/gui.h )
 set(MMM_UI )
 set(MMM_RSC img/add.png img/mc-block.png img/mc-block-glow.png)

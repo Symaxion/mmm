@@ -26,6 +26,7 @@
 
 #include <QtCore/QFile.h>
 #include <QtCore/QDir.h>
+#include <QtCore/QDirIterator.h>
 
 #include <cstdlib>
 
