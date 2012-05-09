@@ -22,6 +22,9 @@
  *    distribution.
  */
 
+#ifndef MMM_QSTD_H_
+#define MMM_QSTD_H_
+
 #include <QtCore/QString.h>
 
 namespace qstd {
@@ -34,3 +37,5 @@ namespace qstd {
 
 	int chmod(const QString& s);
 }
+
+#endif MMM_QSTD_H_ /* MMM_QSTD_H_ */
