@@ -22,6 +22,9 @@
  *    distribution.
  */
 
+#ifndef MMM_OS_H_
+#define MMM_OS_H_
+
 #include <QtCore/QString>
 #include <QtCore/QDir>
 #include <QtCore/QStringList>
@@ -110,3 +113,5 @@ namespace OS {
 
     void launchInstance(const QString&);
 }
+
+#endif MMM_OS_H_ /* MMM_OS_H */

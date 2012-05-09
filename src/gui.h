@@ -22,6 +22,9 @@
  *    distribution.
  */
 
+#ifndef MMM_GUI_H_
+#define MMM_GUI_H_
+
 #include <QtGui/QWidget>
 
 class QVBoxLayout;
@@ -60,3 +63,6 @@ private:
     QPushButton* mOpenButton;
     QPushButton* mLaunchButton;
 };
+
+#endif /* MMM_GUI_H_ */
+
