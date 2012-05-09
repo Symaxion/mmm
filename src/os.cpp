@@ -38,6 +38,8 @@
 #include <unistd.h>
 #endif
 
+#include "qstd.h"
+
 namespace OS {
     QString shellEscape(const QString& input) {
         QString copy = input;
