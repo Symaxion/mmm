@@ -54,7 +54,7 @@ namespace OS {
 
     void prepareInstance(const QString& instance) {
         QDir(kMmmLocation).mkdir(instance);
-        QDir().mkdir(instanceMcPath(instance));
+        qstd::mkdir(instanceMcPath(instance));
     #ifdef Q_WS_MAC
         QDir(kMmmLocation).mkdir(instance + "/Library");
         chflags(qPrintable(kMmmLocation + "/" + instance + "/Library"), 
@@ -64,23 +64,8 @@ namespace OS {
     #endif
     }
 
-    void recursiveRemove(const QDir& path) {
-        QDirIterator it(path.absolutePath(), QDir::AllEntries | QDir::Hidden | 
-                QDir::NoDotAndDotDot);
-        while(it.hasNext()) {
-            it.next();
-            if(it.fileInfo().isDir() && ! it.fileInfo().isSymLink()) {
-                recursiveRemove(it.filePath());
-            } else {
-                QFile::remove(it.filePath());
-            }
-
-        }
-        QDir().rmdir(path.absolutePath());
-    }
-
     void removeInstance(const QString& instance) {
-        recursiveRemove(instancePath(instance));
+        qstd::deltree(instancePath(instance));
     }
 
     QStringList listInstances() {
@@ -132,7 +117,7 @@ namespace OS {
 
         s << qPrintable(script);
     #ifndef Q_WS_WIN
-        if(chmod(qPrintable(kScriptLocation), 0777)) {
+        if(qstd::chmod(kScriptLocation), 0777) {
             perror("mmm");
             exit(1);
         }
@@ -144,8 +129,7 @@ namespace OS {
     }
 
     void initialize() {
-        QDir d;
-        d.mkpath(kMmmLocation);
+        qstd::mkdirs(kMmmLocation);
 
         QString path = getMinecraftApp();
         
@@ -161,11 +145,11 @@ namespace OS {
     void openFolder(const QString& folder) {
         QString copy = shellEscape(folder);
     #if defined(Q_WS_WIN)
-        std::system(qPrintable("explorer " + copy));
+        qstd::system("explorer ");
     #elif defined(Q_WS_MAC)
-        std::system(qPrintable("open " + copy + " &"));
+        qstd::system("open " + copy + " &");
     #else
-        std::system(qPrintable("xdg-open " + copy + " &"));
+        qstd::system("xdg-open " + copy + " &");
     #endif
     }
 
@@ -174,9 +158,9 @@ namespace OS {
         QString script = shellEscape(kScriptLocation); 
 
     #ifdef Q_WS_WIN
-        std::system(qPrintable("cmd /c \"" + script + " "+ copy+"\""));
+        qstd::system("cmd /c \"" + script + " "+ copy+"\"");
     #else
-        std::system(qPrintable(script + " " + copy)); 
+        qstd::system(script + " " + copy);
     #endif
     }
 }

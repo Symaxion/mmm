@@ -22,15 +22,54 @@
  *    distribution.
  */
 
-#include <QtCore/QString.h>
+#include "qstd.h"
+
+#include <QtCore/QFile.h>
+#include <QtCore/QDir.h>
+
+#include <cstdlib>
+
+#ifndef Q_WS_WIN
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#endif
 
 namespace qstd {
-	bool mkdir(const QString& s);
-	bool mkdirs(const QString& s);
+    bool mkdir(const QString& s) {
+    	QDir d;
+    	return d.mkdir(s);
+    }
 
-	void deltree(const QString& s);
+    bool mkdirs(const QString& s) {
+    	QDir d;
+    	return d.mkpath(s);
+    }
 
-	int system(const QString& s);
+    void deltree(const QString& s) {
+        QDirIterator it(s, QDir::AllEntries | QDir::Hidden |
+                QDir::NoDotAndDotDot);
+        while(it.hasNext()) {
+            it.next();
+            if(it.fileInfo().isDir() && ! it.fileInfo().isSymLink()) {
+                deltree(it.filePath());
+            } else {
+                QFile::remove(it.filePath());
+            }
 
-	int chmod(const QString& s);
+        }
+        QDir().rmdir(s);
+    }
+
+    int system(const QString& s) {
+    	return std::system(qPrintable(s));
+    }
+
+    int chmod(const QString& s) {
+    #ifndef Q_WS_WIN
+        return chmod(qPrintable(s));
+    #else
+        return -1;
+    #endif
+    }
 }
