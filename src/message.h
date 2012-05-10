@@ -22,20 +22,34 @@
  *    distribution.
  */
 
-#ifndef MMM_QSTD_H_
-#define MMM_QSTD_H_
+#ifndef MMM_MESSAGE_H_
+#define MMM_MESSAGE_H_
 
-#include <QtCore/QString.h>
+#include <QtGui/QMessageBox.h>
 
-namespace qstd {
-	bool mkdir(const QString& s);
-	bool mkdirs(const QString& s);
+namespace Message {
+    inline QMessageBox::StandardButton error(const QString& t,
+            const QString& s) {
+        return QMessageBox::critical(0, t, s);
+    }
 
-	void deltree(const QString& s);
+    inline QMessageBox::StandardButton info(const QString& t,
+            const QString& s) {
+        return QMessageBox::information(0, t, s);
 
-	int system(const QString& s);
+    }
 
-	int chmod(const QString& s, mode_t m);
+    inline QMessageBox::StandardButton question(const QString& t,
+            const QString& s) {
+        return QMessageBox::question(0, t, s);
+
+    }
+
+    inline QMessageBox::StandardButton warning(const QString& t,
+            const QString& s) {
+        return QMessageBox::warning(0, t, s);
+
+    }
 }
 
-#endif /* MMM_QSTD_H_ */
+#endif /* MMM_MESSAGE_H_ */
