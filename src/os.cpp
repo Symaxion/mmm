@@ -39,6 +39,7 @@
 #endif
 
 #include "qstd.h"
+#include "message.h"
 
 namespace OS {
     QString shellEscape(const QString& input) {
@@ -119,7 +120,7 @@ namespace OS {
 
         s << qPrintable(script);
     #ifndef Q_WS_WIN
-        if(qstd::chmod(kScriptLocation), 0777) {
+        if(qstd::chmod(kScriptLocation, 0777)) {
             perror("mmm");
             exit(1);
         }
@@ -133,13 +134,19 @@ namespace OS {
     void initialize() {
         qstd::mkdirs(kMmmLocation);
 
-        QString path = getMinecraftApp();
+        QString path;
+
+        while((path = getMinecraftApp()) == "") {
+            Message::error("Please select your Minecraft application",
+                    "For MMM to function, you need to select your Minecraft "
+                    "launcher application first.");
+        }
         
         createScript(path);
     }
 
     QString getMinecraftApp() {
-        return QFileDialog::getOpenFileName(0, 
+        return QFileDialog::getOpenFileName(0,
                 "Select your Minecraft application", ".", kAppExtension);
     }
 
