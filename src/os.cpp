@@ -102,12 +102,12 @@ namespace OS {
     #elif defined(Q_WS_MAC)
         return QString(
             "#!/bin/bash\n"
-            "HOME=$1 open '" + mcpath + "' &\n"
+            "HOME=$1 open " + mcpath + " &\n"
         );
     #else
         return QString(
             "#!/bin/bash\n"
-            "HOME=$1 java -jar '" + mcpath + "' &\n"
+            "HOME=$1 java -jar " + mcpath + " &\n"
         );
     #endif
     }
