@@ -1,0 +1,8 @@
+ <!DOCTYPE RCC>
+ <RCC version="1.0">
+ <qresource>
+     <file>img/add.png</file>
+     <file>img/mc-block.png</file>
+     <file>img/mc-block-glow.png</file>
+ </qresource>
+ </RCC>

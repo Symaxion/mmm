@@ -61,9 +61,9 @@ namespace OS {
 
     const QString kDefaultInstanceMcPath = 
     #if defined(Q_WS_MAC) 
-        kDefaultInstance + "/Library/Application Support/minecraft";
+        kDefaultInstance + "/Library/Application Support/minecraft"
     #else
-        kDefaultInstance + kPS +".minecraft";
+        kDefaultInstance + kPS +".minecraft"
     #endif
     ;
 
@@ -91,15 +91,9 @@ namespace OS {
 
     QString getMinecraftApp();
 
-    void prepareInstance(const QString&);
-
-    void removeInstance(const QString&);
+    void prepareInstance(const QDir&);
 
     QStringList listInstances();
-
-    QString instancePath(const QString&);
-
-    QString instanceMcPath(const QString&);
 
     QString scriptText(const QString&);
 

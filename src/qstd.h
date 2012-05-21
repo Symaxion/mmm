@@ -25,7 +25,7 @@
 #ifndef MMM_QSTD_H_
 #define MMM_QSTD_H_
 
-#include <QtCore/QString.h>
+#include <QtCore/QString>
 
 namespace qstd {
 	bool mkdir(const QString& s);

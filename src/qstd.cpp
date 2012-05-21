@@ -24,9 +24,11 @@
 
 #include "qstd.h"
 
-#include <QtCore/QFile.h>
-#include <QtCore/QDir.h>
-#include <QtCore/QDirIterator.h>
+#include <QtCore/QFile>
+#include <QtCore/QDir>
+#include <QtCore/QDirIterator>
+
+#include <QtCore/QDebug>
 
 #include <cstdlib>
 

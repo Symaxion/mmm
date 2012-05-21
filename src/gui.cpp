@@ -25,78 +25,104 @@
 #include "gui.h"
 
 #include "os.h"
+#include "instance.h"
+#include "message.h"
 
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QListWidget>
-#include <QtGui/QPushButton>
+#include <QtCore/QRegExp>
+#include <QtGui/QShortcut>
 #include <QtGui/QInputDialog>
-#include <QtGui/QErrorMessage>
 
-#include <iostream>
+#include <QtCore/QDebug>
 
 void errorMessage(QWidget* parent, const QString& s) {
-    QErrorMessage m(parent);
-    m.showMessage(s);
-    m.exec();
+    (void)parent;
+
 } 
 
-Gui::Gui(QWidget* parent) : QWidget(parent) {
+Gui::Gui(QWidget* parent) : QListWidget(parent) {
     this->setWindowTitle("Multi Minecraft Manager");
-    this->resize(384, 420);
+    this->resize(480, 300);
 
-    mLayout = new QVBoxLayout(this);
-    #ifndef Q_OS_MAC
-    mLayout->setSpacing(6);
-    #endif
-    mLayout->setContentsMargins(6, 6, 6, 6);
+    this->setViewMode(QListView::IconMode);
+    this->setIconSize(QSize(48,48));
+    this->setGridSize(QSize(112,96));
+    this->setMovement(QListView::Static);
+    this->setWordWrap(true);
+    this->setSortingEnabled(true);
 
-    mListWidget = new QListWidget(this);
-    mLayout->addWidget(mListWidget);
-
-    mButtonContainer = new QWidget(this);
-
-    mButtonLayout = new QHBoxLayout(mButtonContainer);
-    mButtonLayout->setSpacing(1);
-    mButtonLayout->setContentsMargins(1, 1, 1, 1);
-
-    mAddButton = new QPushButton(mButtonContainer);
-    mAddButton->setText("Add...");
-    mButtonLayout->addWidget(mAddButton);
-
-    mRemoveButton = new QPushButton(mButtonContainer);
-    mRemoveButton->setText("Remove");
-    mButtonLayout->addWidget(mRemoveButton);
-
-    mOpenButton = new QPushButton(mButtonContainer);
-    mOpenButton->setText("Open Folder");
-    mButtonLayout->addWidget(mOpenButton);
-
-    mLaunchButton = new QPushButton(mButtonContainer);
-    mLaunchButton->setText("Launch");
-    mButtonLayout->addWidget(mLaunchButton);
-
-    mLayout->addWidget(mButtonContainer);
-
-    mListWidget->addItem("Default");
-    mListWidget->setSortingEnabled(true);
+    this->addItem(new Instance("Default", this));
 
     foreach(QString s, OS::listInstances()) {
-        mListWidget->addItem(s);
+        this->insertInstance(s);
     }
 
-    // Connections
-    connect(mAddButton   , SIGNAL(clicked()), this, SLOT(addButtonEvent())   ); 
-    connect(mRemoveButton, SIGNAL(clicked()), this, SLOT(removeButtonEvent())); 
-    connect(mOpenButton  , SIGNAL(clicked()), this, SLOT(openButtonEvent())  ); 
-    connect(mLaunchButton, SIGNAL(clicked()), this, SLOT(launchButtonEvent())); 
+    mAddButton = new QListWidgetItem(QIcon(":/img/add.png"),
+            "Add new instance...", this);
+    mAddButton->setFlags(mAddButton->flags() & ~Qt::ItemIsSelectable);
+    this->addItem(mAddButton);
 
+    // Connections
+    connect(this, SIGNAL(itemClicked(QListWidgetItem*)),
+            this, SLOT(onItemClick(QListWidgetItem*)));
+    connect(this, SIGNAL(itemActivated(QListWidgetItem*)),
+            this, SLOT(onItemActivate(QListWidgetItem*)));
+
+    // Shortcuts
+    QShortcut* del = new QShortcut(
+#ifdef Q_WS_MAC
+    Qt::Key_Backspace
+#else
+    Qt::Key_Delete
+#endif
+    , this);
+    connect(del, SIGNAL(activated()), this, SLOT(onDeleteKey()));
+
+    QShortcut* openfolder = new QShortcut(Qt::CTRL | Qt::Key_I,
+            this);
+    connect(openfolder, SIGNAL(activated()), this, SLOT(onOpenInstance()));
 } 
 
-bool Gui::addInstance(const QString& name) {
+
+bool Gui::containsInstance(const QString& name) const {
+    for(int i = 0; i < count(); ++i) {
+        if(Instance* inst = dynamic_cast<Instance*>(item(i))) {
+            if(inst->name() == name) return true;
+        }
+    }
+    return false;
+}
+
+void Gui::onItemClick(QListWidgetItem* item) {
+    // Check if this is the add button
+    if(!dynamic_cast<Instance*>(item)) {
+        addInstance();
+    }
+}
+
+void Gui::onItemActivate(QListWidgetItem* item) {
+    // Check if this is an instance
+    if(Instance* inst = dynamic_cast<Instance*>(item)) {
+        inst->launch();
+    }
+}
+
+void Gui::onDeleteKey() {
+    QList<QListWidgetItem*> list = selectedItems();
+    if(list.count() == 0) return;
+    Instance* inst = dynamic_cast<Instance*>(list[0]);
+    if(inst && inst->name() != "Default") {
+        removeInstance(inst);
+    }
+}
+
+bool Gui::addInstance() {
+    QString name = QInputDialog::getText(this, "Name your new instance",
+            "Please give a name to the new instance: ");
+    if(name == "") return false;
+
     if(!checkInstanceName(name)) {
         // Name invalid
-        errorMessage(this, "That name contains invalid characters.\n"
+        Message::error("Error", "That name contains invalid characters.\n"
                 "You can only use a-z, A-Z, 0-9, '-', '_', '.', '(', ')' and "
                 "spaces.");
         return false;
@@ -104,90 +130,53 @@ bool Gui::addInstance(const QString& name) {
 
     if(containsInstance(name)) {
         // Duplicate item
-        errorMessage(this, 
+        Message::error("Error",
                 "You already have an instance with that name.");
         return false;
     }
 
-    mListWidget->addItem(name);
-
-    OS::prepareInstance(name);
-
-    return true;
-}
-
-bool Gui::removeInstance(const QString& name) {
-    if(name == "Default") {
-        // Can't remove default!
-        errorMessage(this, "You cannot remove the default instance!");
-        return false;
-    }
-
-    if(!containsInstance(name)) {
-        // Item does not exist
-        errorMessage(this, "That instance does not exist.");
-        return false;
-    }
-
-    QListWidgetItem* toRemove = mListWidget->findItems(name, 
-            Qt::MatchFixedString).at(0);
-
-    delete mListWidget->takeItem(mListWidget->row(toRemove));
-
-    OS::removeInstance(name);
+    Instance* i = insertInstance(name);
+    i->create();
 
     return true;
 }
 
-void Gui::launchInstance(QString name) {
-    if(name == "Default") {
-        name = OS::kDefaultInstance;
-    } else {
-        name = OS::instancePath(name);
+Instance* Gui::insertInstance(const QString& name) {
+    Instance* inst = new Instance(name, this);
+
+    addItem(inst);
+
+    return inst;
+}
+
+
+bool Gui::removeInstance(Instance* inst) {
+    if(Message::question("Are you sure?",
+            "Are you sure you want to remove the instance \""+
+            inst->name()+"\"?") == QMessageBox::Yes) {
+        takeItem(row(inst));
+        inst->remove();
+        delete inst;
+        return true;
     }
-
-    OS::launchInstance(name);
+    return false;
 }
 
-void Gui::openInstance(const QString& name) {
-    if(name == "Default") {
-        OS::openFolder(OS::kDefaultInstanceMcPath);
-    } else {
-        OS::openFolder(OS::instanceMcPath(name));
+
+void Gui::onOpenInstance() const {
+    QList<QListWidgetItem*> list = selectedItems();
+    if(list.count() == 0) return;
+    Instance* inst = dynamic_cast<Instance*>(list[0]);
+    if(inst) {
+        inst->openFolder();
     }
 }
 
-bool Gui::containsInstance(const QString& name) const {
-    return mListWidget->findItems(name, Qt::MatchFixedString).size() != 0;
 
+bool Gui::checkInstanceName(const QString& name) const {
+    return QRegExp("[a-zA-Z0-9 \\-_.()]+").exactMatch(name);
 }
 
-
-bool Gui::checkInstanceName(const QString& name) {
-    return QRegExp("^[a-zA-Z0-9 -_.()]+$").exactMatch(name);
-}
-
-void Gui::addButtonEvent() {
-    QString name = QInputDialog::getText(this, "Name your new instance", 
-            "Please give a name to the new instance: ");
-
-    addInstance(name);
-}
-
-void Gui::removeButtonEvent() {
-    QString selected = mListWidget->currentItem()->text();
-    removeInstance(selected);
-}
-
-void Gui::openButtonEvent() {
-    QString selected = mListWidget->currentItem()->text();
-    openInstance(selected);
-}
-
-void Gui::launchButtonEvent() {
-    QString selected = mListWidget->currentItem()->text();
-    launchInstance(selected);
-}
 
 
 
