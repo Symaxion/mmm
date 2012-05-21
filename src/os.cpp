@@ -29,6 +29,8 @@
 #include <QtCore/QDirIterator>
 #include <QtGui/QFileDialog>
 
+#include <QtCore/QDebug>
+
 #include <iostream>
 #include <fstream>
 
@@ -55,37 +57,21 @@ namespace OS {
     }
 
 
-    void prepareInstance(const QString& instance) {
-        QDir(kMmmLocation).mkdir(instance);
-        qstd::mkdir(instanceMcPath(instance));
+    void prepareInstance(const QDir& instance) {
+        QString instpath = instance.absolutePath();
+        qstd::mkdir(instpath);
     #ifdef Q_WS_MAC
-        QDir(kMmmLocation).mkdir(instance + "/Library");
-        chflags(qPrintable(kMmmLocation + "/" + instance + "/Library"), 
+        instance.mkdir("Library");
+        chflags(qPrintable(instpath + "/Library"),
                 UF_HIDDEN);
-        symlink("..", qPrintable(kMmmLocation + "/" + instance + 
-                "/Library/Application Support"));
+        symlink("..", qPrintable(instpath + "/Library/Application Support"));
     #endif
-    }
-
-    void removeInstance(const QString& instance) {
-        qstd::deltree(instancePath(instance));
     }
 
     QStringList listInstances() {
         return QDir(kMmmLocation).entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     }
 
-    QString instancePath(const QString& instance) {
-        return kMmmLocation + kPS + instance;
-    }
-
-    QString instanceMcPath(const QString& instance) {
-    #ifdef Q_WS_MAC
-        return instancePath(instance) + "/minecraft";
-    #else
-        return instancePath(instance) + kPS + ".minecraft";
-    #endif    
-    }
 
     QString scriptText(const QString& mc) {
         QString mcpath = shellEscape(mc);
@@ -162,8 +148,8 @@ namespace OS {
     #endif
     }
 
-    void launchInstance(const QString& name) {
-        QString copy = shellEscape(name);
+    void launchInstance(const QString& path) {
+        QString copy = shellEscape(path);
         QString script = shellEscape(kScriptLocation); 
 
     #ifdef Q_WS_WIN

@@ -25,43 +25,31 @@
 #ifndef MMM_GUI_H_
 #define MMM_GUI_H_
 
-#include <QtGui/QWidget>
+#include <QtGui/QListWidget>
 
-class QVBoxLayout;
-class QHBoxLayout;
-class QListWidget;
-class QPushButton;
+class Instance;
 
-class Gui : public QWidget {
+class Gui : public QListWidget {
     Q_OBJECT
 public:
     Gui(QWidget* parent = 0); 
 
-    bool addInstance(const QString&);
-    bool removeInstance(const QString&);
-    void launchInstance(QString);
-    void openInstance(const QString&);
-
     bool containsInstance(const QString&) const;
 
 private:
-    bool checkInstanceName(const QString&);
+    bool addInstance();
+    bool removeInstance(Instance*);
+    Instance* insertInstance(const QString&);
+    bool checkInstanceName(const QString&) const;
 
 private slots:
-    void addButtonEvent();
-    void removeButtonEvent();
-    void openButtonEvent();
-    void launchButtonEvent();
+    void onItemClick(QListWidgetItem* item);
+    void onItemActivate(QListWidgetItem* item);
+    void onDeleteKey();
+    void onOpenInstance() const;
 
 private:
-    QVBoxLayout* mLayout;
-    QListWidget* mListWidget;
-    QWidget* mButtonContainer;
-    QHBoxLayout* mButtonLayout;
-    QPushButton* mAddButton;
-    QPushButton* mRemoveButton;
-    QPushButton* mOpenButton;
-    QPushButton* mLaunchButton;
+    QListWidgetItem* mAddButton;
 };
 
 #endif /* MMM_GUI_H_ */

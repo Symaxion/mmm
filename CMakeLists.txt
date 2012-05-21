@@ -35,6 +35,9 @@ if(WIN32)
             "C:\\QtSDK\\Desktop\\Qt\\4.8.0\\mingw\\bin\\qmake.exe")
 endif(WIN32)
 
+if(CMAKE_COMPILER_IS_GNUCC)
+    add_definitions(-g -std=c++03 -Wno-long-long -pedantic -Wall -Werror)
+endif(CMAKE_COMPILER_IS_GNUCC)
   
 set(PROGNAME mmm)
 
@@ -52,14 +55,24 @@ endif(APPLE)
 
 find_package(Qt4 REQUIRED)
 
-set(MMM_SRC src/main.cpp src/os.cpp src/gui.cpp src/qstd.cpp )
-set(MMM_HDR src/gui.h )
+set(MMM_SRC 
+    src/main.cpp 
+    src/os.cpp 
+    src/gui.cpp 
+    src/qstd.cpp 
+    src/instance.cpp)
+    
+set(MMM_HDR 
+    src/gui.h
+    src/instance.h)
+    
 set(MMM_UI )
-set(MMM_RSC img/add.png img/mc-block.png img/mc-block-glow.png)
+
+set(MMM_RSC resources.qrc)
 
 qt4_wrap_cpp(MMM_HDR_MOC ${MMM_HDR})
 qt4_wrap_ui(MMM_UI_HDR ${MMM_UI})
-qt4_add_resources(MMM_RSC_RCC ${MMM_RCC})
+qt4_add_resources(MMM_RSC_RCC ${MMM_RSC})
 
 include(${QT_USE_FILE})
 add_definitions(${QT_DEFINITIONS})

@@ -40,8 +40,10 @@ namespace Message {
     }
 
     inline QMessageBox::StandardButton question(const QString& t,
-            const QString& s) {
-        return QMessageBox::question(0, t, s);
+            const QString& s, QMessageBox::StandardButtons opts =
+            QMessageBox::Yes | QMessageBox::No) {
+        return QMessageBox::question(0, t, s,
+                opts);
 
     }
 
