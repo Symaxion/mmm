@@ -27,9 +27,11 @@
 #include "os.h"
 #include "gui.h"
 #include "qstd.h"
+#include "message.h"
 
 #include <QtCore/QDir>
 #include <QtGui/QMenu>
+#include <QtGui/QFileDialog>
 
 #include <QtCore/QDebug>
 
@@ -86,13 +88,21 @@ void Instance::removeFromGui() {
 }
 
 void Instance::browseForIcon() {
+    QString icpath = QFileDialog::getOpenFileName(0,
+                    "Select an icon", ".", "*.png");
+    if(icpath == "") return;
+    if(!QFile::copy(icpath, path().filePath("icon.png"))) {
+        Message::error("File copy error", "Error: could not copy file.");
+    }
 
+    loadIcon();
 }
 
 void Instance::rightClickMenu(const QPoint& p) {
     QMenu m;
     m.addAction("Launch...", this, SLOT(launch()));
-    m.addAction("Open Folder...", this, SLOT(openFolder()));
+    m.addAction("Open Folder...", this, SLOT(openFolder()),
+            QKeySequence(Qt::CTRL | Qt::Key_I));
     m.addSeparator();
     m.addAction("Browse for icon...", this, SLOT(browseForIcon()));
     m.addAction("Remove", this, SLOT(removeFromGui()));
