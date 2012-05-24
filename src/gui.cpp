@@ -48,6 +48,8 @@ Gui::Gui(QWidget* parent) : QListWidget(parent) {
     this->setGridSize(QSize(112,96));
     this->setMovement(QListView::Static);
     this->setWordWrap(true);
+    this->setWrapping(true);
+    this->setResizeMode(QListView::Adjust);
     this->setSortingEnabled(true);
 
     this->addItem(new Instance("Default", this));
