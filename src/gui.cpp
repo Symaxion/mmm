@@ -34,10 +34,18 @@
 
 #include <QtCore/QDebug>
 
-void errorMessage(QWidget* parent, const QString& s) {
-    (void)parent;
+class AddInstanceButton : public QListWidgetItem {
+public:
+    AddInstanceButton(const QIcon& i, const QString& s, QListWidget* w = 0) :
+            QListWidgetItem(i, s, w) {}
 
-} 
+    inline bool operator==(const QListWidgetItem&) const { return false; }
+    inline bool operator!=(const QListWidgetItem&) const { return true;  }
+    inline bool operator< (const QListWidgetItem&) const { return false; }
+    inline bool operator> (const QListWidgetItem&) const { return true;  }
+    inline bool operator<=(const QListWidgetItem&) const { return false; }
+    inline bool operator>=(const QListWidgetItem&) const { return true;  }
+};
 
 Gui::Gui(QWidget* parent) : QListWidget(parent) {
     this->setWindowTitle("Multi Minecraft Manager");
@@ -58,7 +66,7 @@ Gui::Gui(QWidget* parent) : QListWidget(parent) {
         this->insertInstance(s);
     }
 
-    mAddButton = new QListWidgetItem(QIcon(":/img/add.png"),
+    mAddButton = new AddInstanceButton(QIcon(":/img/add.png"),
             "Add new instance...", this);
     mAddButton->setFlags(mAddButton->flags() & ~Qt::ItemIsSelectable);
     this->addItem(mAddButton);
