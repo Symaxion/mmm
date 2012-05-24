@@ -43,10 +43,10 @@ set(PROGNAME mmm)
 
 if(APPLE)
 set(MACOSX_BUNDLE_ICON_FILE ${CMAKE_SOURCE_DIR}/icon/mmm.icns)
-set(MACOSX_BUNDLE_SHORT_VERSION_STRING "0.1 (c) 2012 Frank \"SeySayux\" Erens")
-set(MACOSX_BUNDLE_VERSION "Version 0.1 (c) 2012 Frank \"SeySayux\" Erens" )
+set(MACOSX_BUNDLE_SHORT_VERSION_STRING "0.2.1 (c) 2012 Frank \"SeySayux\" Erens")
+set(MACOSX_BUNDLE_VERSION "Version 0.2.1 (c) 2012 Frank \"SeySayux\" Erens" )
 set(MACOSX_BUNDLE_LONG_VERSION_STRING 
-        "Version 0.1 (c) 2012 Frank \"SeySayux\" Erens")
+        "Version 0.2.1 (c) 2012 Frank \"SeySayux\" Erens")
 set(MACOSX_BUNDLE_GUI_IDENTIFIER "Multi Minecraft Manager")
 set(MACOSX_BUNDLE_BUNDLE_NAME "Multi Minecraft Manager")
 else(APPLE)
