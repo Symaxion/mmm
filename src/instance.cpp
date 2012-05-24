@@ -85,12 +85,16 @@ void Instance::removeFromGui() {
     dynamic_cast<Gui*>(listWidget())->removeInstance(this);
 }
 
+void Instance::browseForIcon() {
+
+}
+
 void Instance::rightClickMenu(const QPoint& p) {
     QMenu m;
     m.addAction("Launch...", this, SLOT(launch()));
     m.addAction("Open Folder...", this, SLOT(openFolder()));
     m.addSeparator();
-    m.addAction("Browse for icon...");
+    m.addAction("Browse for icon...", this, SLOT(browseForIcon()));
     m.addAction("Remove", this, SLOT(removeFromGui()));
     m.exec(p);
 }

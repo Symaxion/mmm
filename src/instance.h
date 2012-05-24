@@ -80,9 +80,34 @@ public slots:
     void launch() const;
     void openFolder() const;
     void removeFromGui();
+    void browseForIcon();
 private:
     bool mDefaultInstance;
 };
+
+
+inline bool operator==(const QListWidgetItem& w1, const Instance& w2) {
+    return w2 == w1;
+}
+
+inline bool operator!=(const QListWidgetItem& w1, const Instance& w2) {
+    return w2 != w1;
+}
+
+inline bool operator<(const QListWidgetItem& w1, const Instance& w2) {
+    return w2 > w1;
+}
+inline bool operator>(const QListWidgetItem& w1, const Instance& w2) {
+    return w2 < w1;
+}
+
+inline bool operator<=(const QListWidgetItem& w1, const Instance& w2) {
+    return w2 >= w1;
+}
+
+inline bool operator>=(const QListWidgetItem& w1, const Instance& w2) {
+    return w2 <= w1;
+}
 
 
 #endif /* MMM_INSTANCE_H_ */
