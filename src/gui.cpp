@@ -82,6 +82,11 @@ Gui::Gui(QWidget* parent) : QListWidget(parent) {
     QShortcut* openfolder = new QShortcut(Qt::CTRL | Qt::Key_I,
             this);
     connect(openfolder, SIGNAL(activated()), this, SLOT(onOpenInstance()));
+
+    // Context menu
+    this->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(this, SIGNAL(customContextMenuRequested(const QPoint&)),
+        this, SLOT(onContextMenu(const QPoint&)));
 } 
 
 
@@ -114,6 +119,16 @@ void Gui::onDeleteKey() {
     Instance* inst = dynamic_cast<Instance*>(list[0]);
     if(inst && inst->name() != "Default") {
         removeInstance(inst);
+    }
+}
+
+void Gui::onContextMenu(const QPoint& p) {
+    //QPoint gp = this->viewport()->mapToGlobal(p);
+    QListWidgetItem* it = this->itemAt(p);
+
+    Instance* in;
+    if(it && (in = dynamic_cast<Instance*>(it))) {
+        in->rightClickMenu(this->viewport()->mapToGlobal(p));
     }
 }
 
