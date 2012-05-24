@@ -36,17 +36,19 @@ public:
 
     bool containsInstance(const QString&) const;
 
-private:
     bool addInstance();
-    bool removeInstance(Instance*);
     Instance* insertInstance(const QString&);
     bool checkInstanceName(const QString&) const;
+
+public slots:
+    bool removeInstance(Instance*);
 
 private slots:
     void onItemClick(QListWidgetItem* item);
     void onItemActivate(QListWidgetItem* item);
     void onDeleteKey();
     void onOpenInstance() const;
+    void onContextMenu(const QPoint&);
 
 private:
     QListWidgetItem* mAddButton;

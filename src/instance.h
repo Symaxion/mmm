@@ -26,6 +26,7 @@
 #define MMM_INSTANCE_H_
 
 #include <QtGui/QListWidget>
+#include <QtCore/QPoint>
 
 class QDir;
 
@@ -43,13 +44,10 @@ public:
     QDir mcpath() const;
 
     bool exists() const;
-    void create();
-    void remove();
-
-    void launch() const;
-    void openFolder() const;
 
     void loadIcon();
+
+    void rightClickMenu(const QPoint&);
 
     inline bool isDefaultInstance() const {
         return mDefaultInstance;
@@ -74,6 +72,14 @@ public:
     inline bool operator>=(const QListWidgetItem& o) const {
         return !(*this < o);
     }
+
+public slots:
+    void create();
+    void remove();
+
+    void launch() const;
+    void openFolder() const;
+    void removeFromGui();
 private:
     bool mDefaultInstance;
 };

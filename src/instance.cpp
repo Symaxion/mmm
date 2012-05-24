@@ -25,9 +25,11 @@
 #include "instance.h"
 
 #include "os.h"
+#include "gui.h"
 #include "qstd.h"
 
 #include <QtCore/QDir>
+#include <QtGui/QMenu>
 
 #include <QtCore/QDebug>
 
@@ -79,6 +81,19 @@ void Instance::openFolder() const {
     }
 }
 
+void Instance::removeFromGui() {
+    dynamic_cast<Gui*>(listWidget())->removeInstance(this);
+}
+
+void Instance::rightClickMenu(const QPoint& p) {
+    QMenu m;
+    m.addAction("Launch...", this, SLOT(launch()));
+    m.addAction("Open Folder...", this, SLOT(openFolder()));
+    m.addSeparator();
+    m.addAction("Browse for icon...");
+    m.addAction("Remove", this, SLOT(removeFromGui()));
+    m.exec(p);
+}
 
 void Instance::loadIcon() {
     if(isDefaultInstance()) {
