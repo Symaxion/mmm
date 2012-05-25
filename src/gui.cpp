@@ -31,6 +31,7 @@
 #include <QtCore/QRegExp>
 #include <QtGui/QShortcut>
 #include <QtGui/QInputDialog>
+#include <QtGui/QMenu>
 
 #include <QtCore/QDebug>
 
@@ -91,6 +92,9 @@ Gui::Gui(QWidget* parent) : QListWidget(parent) {
             this);
     connect(openfolder, SIGNAL(activated()), this, SLOT(onOpenInstance()));
 
+    QShortcut* newinst = new QShortcut(QKeySequence::New, this);
+    connect(newinst, SIGNAL(activated()), this, SLOT(addInstance()));
+
     // Context menu
     this->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, SIGNAL(customContextMenuRequested(const QPoint&)),
@@ -137,6 +141,11 @@ void Gui::onContextMenu(const QPoint& p) {
     Instance* in;
     if(it && (in = dynamic_cast<Instance*>(it))) {
         in->rightClickMenu(this->viewport()->mapToGlobal(p));
+    } else {
+        QMenu m;
+        m.addAction("New instance...", this, SLOT(addInstance()),
+                QKeySequence::New);
+        m.exec(this->viewport()->mapToGlobal(p));
     }
 }
 
