@@ -21,11 +21,12 @@ Features
 * No extra setup required (No Java in PATH, no Mono, no runtimes) <sup>[1]</sup>
 * Stores instances in a known, convenient location (%APPDATA/.mmm on Windows, 
   ~/Library/Application Data/MMM on Mac, ~/.mmm on Linux)
+* Icon based view with option for custom icons.
 * Uses the official launcher, or any launcher you want, including SpoutCraft!
 
 Screenshots
 -----------
-<img src="http://i.imgur.com/ilwlt.png" />
+<img src="http://i.imgur.com/sWNh8.png" />
 
 Downloads
 ---------
