@@ -35,7 +35,9 @@ namespace qstd {
 
 	int system(const QString& s);
 
+#ifndef Q_WS_WIN 
 	int chmod(const QString& s, mode_t m);
+#endif
 }
 
 #endif /* MMM_QSTD_H_ */

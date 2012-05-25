@@ -68,11 +68,10 @@ namespace qstd {
     	return std::system(qPrintable(s));
     }
 
-    int chmod(const QString& s, mode_t m) {
     #ifndef Q_WS_WIN
+    int chmod(const QString& s, mode_t m) {
         return ::chmod(qPrintable(s), m);
-    #else
         return -1;
-    #endif
     }
+    #endif
 }

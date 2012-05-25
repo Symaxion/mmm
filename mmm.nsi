@@ -50,8 +50,8 @@ file "build\QtCore4.dll"
 file "build\QtGui4.dll"
 
 setOutPath "C:\Windows"
-file "w32\mmmbash.exe"
-file "w32\mmmbox.exe"
+file "w32\bashmmm.exe"
+file "w32\busyboxmmm.exe"
 
 
 createShortCut "$SMPROGRAMS\Multi Minecraft Manager.lnk" \
