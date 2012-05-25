@@ -47,6 +47,7 @@ namespace OS {
     QString shellEscape(const QString& input) {
         QString copy = input;
     #ifdef Q_WS_WIN
+        copy.replace("/", "\\");
         copy.replace("\"","\\\"");
         copy = "\"" + copy + "\"";
     #else
@@ -139,8 +140,9 @@ namespace OS {
 
     void openFolder(const QString& folder) {
         QString copy = shellEscape(folder);
+        qDebug() << "Opening folder" << copy;
     #if defined(Q_WS_WIN)
-        qstd::system("explorer ");
+        qstd::system("explorer "+copy);
     #elif defined(Q_WS_MAC)
         qstd::system("open " + copy + " &");
     #else
