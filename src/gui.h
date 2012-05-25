@@ -36,11 +36,11 @@ public:
 
     bool containsInstance(const QString&) const;
 
-    bool addInstance();
     Instance* insertInstance(const QString&);
     bool checkInstanceName(const QString&) const;
 
 public slots:
+    bool addInstance();
     bool removeInstance(Instance*);
 
 private slots:
