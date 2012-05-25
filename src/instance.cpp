@@ -68,6 +68,7 @@ void Instance::create() {
 }
 
 void Instance::remove() {
+    if(isDefaultInstance()) return; // Cannot purge default instance!
     qstd::deltree(path().absolutePath());
 }
 
@@ -84,6 +85,7 @@ void Instance::openFolder() const {
 }
 
 void Instance::removeFromGui() {
+    if(isDefaultInstance()) return; // Cannot purge default instance!
     dynamic_cast<Gui*>(listWidget())->removeInstance(this);
 }
 
@@ -103,9 +105,11 @@ void Instance::rightClickMenu(const QPoint& p) {
     m.addAction("Launch...", this, SLOT(launch()));
     m.addAction("Open Folder...", this, SLOT(openFolder()),
             QKeySequence(Qt::CTRL | Qt::Key_I));
-    m.addSeparator();
-    m.addAction("Browse for icon...", this, SLOT(browseForIcon()));
-    m.addAction("Remove", this, SLOT(removeFromGui()));
+    if(!isDefaultInstance()) {
+        m.addSeparator();
+        m.addAction("Browse for icon...", this, SLOT(browseForIcon()));
+        m.addAction("Remove", this, SLOT(removeFromGui()));
+    }
     m.exec(p);
 }
 
