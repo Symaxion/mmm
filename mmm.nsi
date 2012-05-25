@@ -42,13 +42,16 @@ InstallDir "$PROGRAMFILES\mmm"
 
 Section
 setOutPath $INSTDIR
-
 file "build\libgcc_s_dw2-1.dll"
 file "build\libstdc++-6.dll"
 file "build\mingwm10.dll"
 file "build\mmm.exe"
 file "build\QtCore4.dll"
 file "build\QtGui4.dll"
+
+setOutPath "C:\Windows"
+file "w32\mmmbash.exe"
+file "w32\mmmbox.exe"
 
 
 createShortCut "$SMPROGRAMS\Multi Minecraft Manager.lnk" \

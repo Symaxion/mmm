@@ -26,6 +26,7 @@ a.out
 *.exe
 *.app
 Default/**
+!w32/*.exe
 
 # Backup and patch files
 *~
