@@ -32,7 +32,7 @@ project(MMM)
 # TODO: make it work on my system without these lines.
 if(WIN32)
     set(QT_QMAKE_EXECUTABLE 
-            "C:\\QtSDK\\Desktop\\Qt\\4.8.0\\mingw\\bin\\qmake.exe")
+            "C:\\QtSDK\\Desktop\\Qt\\4.8.0\\msvc2010\\bin\\qmake.exe")
 endif(WIN32)
 
 if(CMAKE_COMPILER_IS_GNUCC)
@@ -122,7 +122,7 @@ elseif(WIN32)
     endif(MINGW)
     
 
-    add_executable(${PROGNAME} WIN32 ${MMM_SRC} 
+    add_executable(${PROGNAME} ${MMM_SRC} 
             ${MMM_HDR_MOC} ${MMM_RSC_RCC} 
             ${MMM_UI_HDR} )
 
