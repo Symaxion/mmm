@@ -1,8 +1,25 @@
- <!DOCTYPE RCC>
- <RCC version="1.0">
- <qresource>
-     <file>img/add.png</file>
-     <file>img/mc-block.png</file>
-     <file>img/mc-block-glow.png</file>
- </qresource>
- </RCC>
+<!DOCTYPE RCC>
+<!-- vim: syntax=xml -->
+<RCC version="1.0">
+  <qresource>
+    <file>img/add.png</file>
+    <file>img/add-hover.png</file>
+    <file>img/add-active.png</file>
+    <file>img/mc-block.png</file>
+    <file>img/mc-block-glow.png</file>
+
+    <file>img/toolbar-mac/add.svg</file>
+    <file>img/toolbar-mac/duplicate.svg</file>
+    <file>img/toolbar-mac/export.svg</file>
+    <file>img/toolbar-mac/import.svg</file>
+    <file>img/toolbar-mac/search.svg</file>
+    <file>img/toolbar-mac/trash.svg</file>
+
+    <file>img/toolbar-misc/add.svg</file>
+    <file>img/toolbar-misc/duplicate.svg</file>
+    <file>img/toolbar-misc/export.svg</file>
+    <file>img/toolbar-misc/import.svg</file>
+    <file>img/toolbar-misc/search.svg</file>
+    <file>img/toolbar-misc/trash.svg</file>
+  </qresource>
+</RCC>

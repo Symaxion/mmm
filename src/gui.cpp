@@ -29,16 +29,22 @@
 #include "message.h"
 
 #include <QtCore/QRegExp>
+#include <QtCore/QTimer>
+#include <QtGui/QMouseEvent>
 #include <QtGui/QShortcut>
 #include <QtGui/QInputDialog>
 #include <QtGui/QMenu>
+#include <QtGui/QLineEdit>
+#include <QtGui/QFrame>
 
 #include <QtCore/QDebug>
 
 class AddInstanceButton : public QListWidgetItem {
 public:
-    AddInstanceButton(const QIcon& i, const QString& s, QListWidget* w = 0) :
-            QListWidgetItem(i, s, w) {}
+    AddInstanceButton(QListWidget* w = 0) :
+            QListWidgetItem("", w), mNormal(":img/add.png") {
+        setIcon(mNormal);
+    }
 
     inline bool operator==(const QListWidgetItem&) const { return false; }
     inline bool operator!=(const QListWidgetItem&) const { return true;  }
@@ -46,11 +52,15 @@ public:
     inline bool operator> (const QListWidgetItem&) const { return true;  }
     inline bool operator<=(const QListWidgetItem&) const { return false; }
     inline bool operator>=(const QListWidgetItem&) const { return true;  }
+
+private:
+    QIcon mNormal;
 };
 
 Gui::Gui(QWidget* parent) : QListWidget(parent) {
     this->setWindowTitle("Multi Minecraft Manager");
     this->resize(480, 300);
+    this->setMouseTracking(true);
 
     this->setViewMode(QListView::IconMode);
     this->setIconSize(QSize(48,48));
@@ -67,8 +77,7 @@ Gui::Gui(QWidget* parent) : QListWidget(parent) {
         this->insertInstance(s);
     }
 
-    mAddButton = new AddInstanceButton(QIcon(":/img/add.png"),
-            "Add new instance...", this);
+    mAddButton = new AddInstanceButton(this);
     mAddButton->setFlags(mAddButton->flags() & ~Qt::ItemIsSelectable);
     this->addItem(mAddButton);
 
@@ -205,7 +214,6 @@ void Gui::onOpenInstance() const {
         inst->openFolder();
     }
 }
-
 
 bool Gui::checkInstanceName(const QString& name) const {
     return QRegExp("[a-zA-Z0-9 \\-_.()]+").exactMatch(name);

@@ -137,7 +137,7 @@ bool Instance::operator<(const QListWidgetItem& o) const {
         return true;
     } else if(you == "default") {
         return false;
-    } else if(you == "add new instance...") {
+    } else if(you == "") {
         return true;
     } else {
         return me < you;
