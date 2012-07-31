@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -13,10 +14,13 @@
    height="48px"
    id="svg57"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
-   sodipodi:docbase="/home/jimmac/src/cvs/tango-icon-theme/scalable/places"
-   sodipodi:docname="user-trash.svg"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+   inkscape:version="0.48.2 r9819"
+   sodipodi:docname="trash.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.1"
+   inkscape:export-filename="/Users/frank/Projects/MMM/mmm/img/toolbar-misc/trash.png"
+   inkscape:export-xdpi="120"
+   inkscape:export-ydpi="120">
   <defs
      id="defs3">
     <inkscape:perspective
@@ -282,15 +286,16 @@
      inkscape:grid-bbox="true"
      inkscape:document-units="px"
      inkscape:window-width="919"
-     inkscape:window-height="818"
-     inkscape:window-x="0"
-     inkscape:window-y="30"
+     inkscape:window-height="756"
+     inkscape:window-x="81"
+     inkscape:window-y="8"
      inkscape:showpageshadow="false"
      inkscape:object-nodes="true"
      inkscape:object-points="true"
      inkscape:object-bbox="true"
      inkscape:guide-bbox="false"
-     inkscape:grid-points="true">
+     inkscape:grid-points="true"
+     inkscape:window-maximized="0">
     <inkscape:grid
        id="GridFromPre046Settings"
        type="xygrid"

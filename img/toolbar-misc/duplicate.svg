@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -13,10 +14,13 @@
    height="48px"
    id="svg4198"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
-   sodipodi:docbase="/home/tigert/cvs/freedesktop.org/tango-icon-theme/scalable/actions"
-   sodipodi:docname="edit-copy.svg"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+   inkscape:version="0.48.2 r9819"
+   sodipodi:docname="duplicate.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.1"
+   inkscape:export-filename="/Users/frank/Projects/MMM/mmm/img/toolbar-misc/duplicate.png"
+   inkscape:export-xdpi="120"
+   inkscape:export-ydpi="120">
   <defs
      id="defs4200">
     <inkscape:perspective
@@ -157,9 +161,10 @@
      inkscape:document-units="px"
      inkscape:window-width="873"
      inkscape:window-height="699"
-     inkscape:window-x="264"
-     inkscape:window-y="149"
-     inkscape:showpageshadow="false" />
+     inkscape:window-x="36"
+     inkscape:window-y="0"
+     inkscape:showpageshadow="false"
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata4203">
     <rdf:RDF>

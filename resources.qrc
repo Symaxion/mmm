@@ -8,18 +8,18 @@
     <file>img/mc-block.png</file>
     <file>img/mc-block-glow.png</file>
 
-    <file>img/toolbar-mac/add.svg</file>
-    <file>img/toolbar-mac/duplicate.svg</file>
-    <file>img/toolbar-mac/export.svg</file>
-    <file>img/toolbar-mac/import.svg</file>
-    <file>img/toolbar-mac/search.svg</file>
-    <file>img/toolbar-mac/trash.svg</file>
+    <file>img/toolbar-mac/add.png</file>
+    <file>img/toolbar-mac/duplicate.png</file>
+    <file>img/toolbar-mac/export.png</file>
+    <file>img/toolbar-mac/import.png</file>
+    <file>img/toolbar-mac/search.png</file>
+    <file>img/toolbar-mac/trash.png</file>
 
-    <file>img/toolbar-misc/add.svg</file>
-    <file>img/toolbar-misc/duplicate.svg</file>
-    <file>img/toolbar-misc/export.svg</file>
-    <file>img/toolbar-misc/import.svg</file>
-    <file>img/toolbar-misc/search.svg</file>
-    <file>img/toolbar-misc/trash.svg</file>
+    <file>img/toolbar-misc/add.png</file>
+    <file>img/toolbar-misc/duplicate.png</file>
+    <file>img/toolbar-misc/export.png</file>
+    <file>img/toolbar-misc/import.png</file>
+    <file>img/toolbar-misc/search.png</file>
+    <file>img/toolbar-misc/trash.png</file>
   </qresource>
 </RCC>

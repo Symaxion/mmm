@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -9,14 +10,17 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   sodipodi:docname="system-search.svg"
-   sodipodi:docbase="/home/tigert/cvs/freedesktop.org/tango-icon-theme/scalable/actions"
-   inkscape:version="0.46"
+   sodipodi:docname="search.svg"
+   inkscape:version="0.48.2 r9819"
    sodipodi:version="0.32"
    id="svg11300"
    height="48px"
    width="48px"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.1"
+   inkscape:export-filename="/Users/frank/Projects/MMM/mmm/img/toolbar-misc/search.png"
+   inkscape:export-xdpi="120"
+   inkscape:export-ydpi="120">
   <defs
      id="defs3">
     <inkscape:perspective
@@ -205,7 +209,8 @@
      bordercolor="#666666"
      pagecolor="#ffffff"
      id="base"
-     fill="#729fcf" />
+     fill="#729fcf"
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata4">
     <rdf:RDF>
@@ -222,6 +227,7 @@
         <dc:source>http://jimmac.musichall.cz</dc:source>
         <cc:license
            rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:title></dc:title>
       </cc:Work>
       <cc:License
          rdf:about="http://creativecommons.org/licenses/publicdomain/">

@@ -22,22 +22,26 @@
  *    distribution.
  */
 
-#include <QtGui/QApplication>
-#include <QtGui/QWidget>
-#include <QtGui/QFileDialog>
+#include "toolbar.h"
 
-#include "os.h"
-#include "mainwindow.h"
+#include <QtGui/QIcon>
+#include <QtGui/QHBoxLayout>
 
-int main(int argc, char** argv) {
-    QApplication app(argc, argv);
+Toolbar::Toolbar() : QToolBar("toolbar") {
+    addAction((QIcon)getIcon("add"), "Add new instance"); 
+    addAction((QIcon)getIcon("duplicate"), "Duplicate instance"); 
+    addAction((QIcon)getIcon("trash"), "Remove instance"); 
+    addSeparator();
+    addAction((QIcon)getIcon("import"), "Import instance"); 
+    addAction((QIcon)getIcon("export"), "Export instance"); 
+    addSeparator();
+    addAction((QIcon)getIcon("search"), "Search"); 
+}
 
-    if(!OS::isInitialized()) {
-        OS::initialize();
-    }
-
-    MainWindow w;
-    w.show();
-
-    return app.exec();
+QString Toolbar::getIcon(QString icon) {
+#ifdef Q_WS_MAC
+    return ":/img/toolbar-mac/"+icon+".png";
+#else
+    return ":/img/toolbar-misc/"+icon+".png";
+#endif
 }

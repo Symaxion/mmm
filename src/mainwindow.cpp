@@ -22,22 +22,19 @@
  *    distribution.
  */
 
-#include <QtGui/QApplication>
-#include <QtGui/QWidget>
-#include <QtGui/QFileDialog>
-
-#include "os.h"
 #include "mainwindow.h"
+#include "gui.h"
+#include "toolbar.h"
 
-int main(int argc, char** argv) {
-    QApplication app(argc, argv);
+MainWindow::MainWindow() : QMainWindow(0) {
+    addToolBar(new Toolbar);
+    setCentralWidget(new Gui);
+    setUnifiedTitleAndToolBarOnMac(true);
 
-    if(!OS::isInitialized()) {
-        OS::initialize();
-    }
+    this->setWindowTitle("Multi Minecraft Manager");
+    this->resize(480, 300);
+}
 
-    MainWindow w;
-    w.show();
-
-    return app.exec();
+Gui* MainWindow::gui() {
+    return dynamic_cast<Gui*>(centralWidget());
 }

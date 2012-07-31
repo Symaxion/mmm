@@ -17,7 +17,10 @@
    height="48px"
    width="48px"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   version="1.1">
+   version="1.1"
+   inkscape:export-filename="/Users/frank/Projects/MMM/mmm/img/toolbar-misc/export.png"
+   inkscape:export-xdpi="120"
+   inkscape:export-ydpi="120">
   <defs
      id="defs3">
     <inkscape:perspective
@@ -383,7 +386,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
         <dc:creator>
           <cc:Agent>
             <dc:title>Jakub Steiner</dc:title>

@@ -22,22 +22,20 @@
  *    distribution.
  */
 
-#include <QtGui/QApplication>
-#include <QtGui/QWidget>
-#include <QtGui/QFileDialog>
+#ifndef MMM_MAINWINDOW_H_
+#define MMM_MAINWINDOW_H_
 
-#include "os.h"
-#include "mainwindow.h"
+#include <QtGui/QMainWindow>
 
-int main(int argc, char** argv) {
-    QApplication app(argc, argv);
+class Gui;
 
-    if(!OS::isInitialized()) {
-        OS::initialize();
-    }
+class MainWindow : public QMainWindow {
+    Q_OBJECT
+public:
+    MainWindow();
+    Gui* gui();
+private:
+};
 
-    MainWindow w;
-    w.show();
 
-    return app.exec();
-}
+#endif /* MMM_MAINWINDOW_H_ */

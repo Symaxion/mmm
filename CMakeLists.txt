@@ -40,13 +40,14 @@ if(CMAKE_COMPILER_IS_GNUCC)
 endif(CMAKE_COMPILER_IS_GNUCC)
   
 set(PROGNAME mmm)
+set(PROGVERSION "0.3 pre")
 
 if(APPLE)
 set(MACOSX_BUNDLE_ICON_FILE ${CMAKE_SOURCE_DIR}/icon/mmm.icns)
-set(MACOSX_BUNDLE_SHORT_VERSION_STRING "0.3 pre (c) 2012 Frank \"SeySayux\" Erens")
-set(MACOSX_BUNDLE_VERSION "Version 0.3 pre (c) 2012 Frank \"SeySayux\" Erens" )
+set(MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROGVERSION} (c) 2012 Frank \"SeySayux\" Erens")
+set(MACOSX_BUNDLE_VERSION "Version ${PROGVERSION} (c) 2012 Frank \"SeySayux\" Erens" )
 set(MACOSX_BUNDLE_LONG_VERSION_STRING 
-        "Version 0.3 pre (c) 2012 Frank \"SeySayux\" Erens")
+        "Version ${PROGVERSION} (c) 2012 Frank \"SeySayux\" Erens")
 set(MACOSX_BUNDLE_GUI_IDENTIFIER "Multi Minecraft Manager")
 set(MACOSX_BUNDLE_BUNDLE_NAME "Multi Minecraft Manager")
 else(APPLE)
@@ -60,11 +61,17 @@ set(MMM_SRC
     src/os.cpp 
     src/gui.cpp 
     src/qstd.cpp 
-    src/instance.cpp)
+    src/instance.cpp
+    src/mainwindow.cpp
+    src/toolbar.cpp
+)
     
 set(MMM_HDR 
     src/gui.h
-    src/instance.h)
+    src/instance.h
+    src/mainwindow.h
+    src/toolbar.h
+)
     
 set(MMM_UI )
 

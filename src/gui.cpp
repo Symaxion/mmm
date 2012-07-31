@@ -58,10 +58,6 @@ private:
 };
 
 Gui::Gui(QWidget* parent) : QListWidget(parent) {
-    this->setWindowTitle("Multi Minecraft Manager");
-    this->resize(480, 300);
-    this->setMouseTracking(true);
-
     this->setViewMode(QListView::IconMode);
     this->setIconSize(QSize(48,48));
     this->setGridSize(QSize(112,96));
